@@ -29,7 +29,7 @@ This project is built using basic HTML, CSS, and JavaScript, making it easy to u
 
 ## Project Structure
 
-* whatsapp-message-sender.html
+* index.html
   Contains the structure of the web page.
 * styles.css
   Handles the design and layout of the application.
@@ -40,7 +40,7 @@ This project is built using basic HTML, CSS, and JavaScript, making it easy to u
 
 1. Clone or download this repository.
 2. Open the project folder.
-3. Open whatsapp-message-sender.html in any modern web browser.
+3. Open index.html in any modern web browser.
 4. Start sending WhatsApp messages.
 
 ## Contribution Guidelines

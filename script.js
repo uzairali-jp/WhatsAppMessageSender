@@ -8,7 +8,7 @@ function sendWhatsApp() {
         return;
     }
 
-    let message = "My Address is:\n" + address;
+    let message = address;
 
     let url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
 

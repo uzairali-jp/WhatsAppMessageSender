@@ -1,0 +1,46 @@
+body {
+    background-color: black;
+}
+
+div {
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: lightgreen;
+    width: 300px;
+    position: absolute;
+    left: 400px;
+    top: 100px;
+    text-align: center;
+    align-items: center;
+
+}
+
+h2 {
+    margin-top: 50px;
+
+}
+
+input {
+    padding: 5px;
+}
+
+button {
+    padding: 10px;
+    width: 100px;
+    border-radius: 20px;
+}
+
+.logo img {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: -30px;
+    right: 550px;
+}
+
+.logo h1 {
+    position: absolute;
+    top: -50;
+    right: 390px;
+    color: white;
+}

@@ -1,31 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="C:\Users\waqar com\Desktop\Uzair target\WhatsAppMessageSender\styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
+    <title>Whatsend Personal</title>
 </head>
+<body class="body">
 
-<body>
-    <div class="logo">
-        <img src="./images/whatsapp.webp" alt="Logo">
-        <h1>WhatsApp</h1>
+        <!-- Header-Section    -->
+    <div class="header">
+        <div class="logo">
+            <img src="C:\Users\waqar com\Desktop\Uzair target\WhatsAppMessageSender\images\logo-img.svg">
+        </div>
+        <div class="ancer">
+            <a href="C:\Users\waqar com\Downloads\uzair practice\whatsapp\whats-personal\index2.html">PERSONAL</a>
+            <a href="C:\Users\waqar com\Downloads\uzair practice\whatsapp\whats-broasdcast\index1.html">BROADCAST</a>
+        </div>
     </div>
-    <div>
-        <h2>Send WhatsAppLink</h2>
+        
+    <!--Hero-Section -->
+    <div class="container">
+        <div class="hero">
+            <div class="heading">
+                 <h1>Send Personal Message</h1>
+            </div>
+        <div class="input">
+            <h2>Phone Numbe</h2>
+             <input type="number" id="phone" placeholder="923123456789">
+        </div>
 
-        <input id="phone" type="number" placeholder="“Enter WhatsApp start 92.”"><br>
-        <br>
-        <textarea id="address" rows="4" placeholder="Enter Text"></textarea><br>
-        <br>
-        <button onclick="sendWhatsApp()">Send To</button><br>
-        <br>
+        <div class="message-main">
+            <h2>Message</h2>        
+            <div class="chat-bar">
+                <input type="text" id="address" placeholder="Type a message">
+            <button class="send-btn" id="sendBtn" onclick="sendBtn()">
+                <svg viewBox="0 0 24 24">
+                <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
+                </svg>
+            </button>
+        </div>
+        </div>     
+    </div>
+    
 
+<!-- introduced -->
+
+      
+        <div class="container2">
+            <h2 class="h22">Introduced Personal Message</h2>
+
+            <p>
+                Whats Personal explains the concept of sending a private message
+                to one person using WhatsApp.
+            </p>
+
+            <div class="chat-box2">
+                This type of messaging is used for direct and personal
+                communication between two people.
+            </div>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+
+
+  <!-- intl-tel-input JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+  <script src="./script.js"></script>
 </body>
-
 </html>

@@ -1,75 +1,628 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Broadcast</title>
+    <title>WhatsApp Broadcast Sender</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            margin: 0px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(to bottom, #00a884 0%, #00a884 30%, #f0f2f5 30%, #f0f2f5 100%);
+            min-height: 100vh;
         }
 
-        .container {
-            display: flex;
-            gap: 20px;
-        }
-
-        /* Header-Section */
+        /* Header */
         .header {
-            width: 100%;
-            background-color: #FCF5EB;
-            /* background-color: green; */
-            height: 120px;
-        }
-
-        .logo img {
-            padding-top: 10px;
-            padding-left: 20px;
-            padding-bottom: 20px;
-        }
-
-        .ancer {
+            background: transparent;
+            padding: 20px 40px;
             display: flex;
-            gap: 20px;
-            padding-left: 30px;
-
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .ancer a {
-            text-decoration: none;
-            padding: 12px 25px;
-            background-color: #4CAF50;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             color: white;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 24px;
+            font-weight: 600;
         }
 
-        .ancer a:hover {
-            background-color: #45a049;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        .logo svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            padding: 10px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 24px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a.active {
+            background: white;
+            color: #00a884;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Card Container */
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 40px;
+        }
+
+        .hero-title {
+            font-size: 32px;
+            color: #111b21;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        /* Input Group */
+        .input-group {
+            margin-bottom: 30px;
+        }
+
+        .input-label {
+            font-size: 14px;
+            color: #667781;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 500;
+        }
+
+        .phone-list-area {
+            width: 100%;
+            max-width: 600px;
+            min-height: 150px;
+            padding: 16px;
+            border: 2px solid #e9edef;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #f0f2f5;
+            resize: vertical;
+        }
+
+        .phone-list-area:focus {
+            outline: none;
+            border-color: #00a884;
+            background: white;
+        }
+
+        .phone-input-container {
+            display: flex;
+            max-width: 600px;
+            gap: 10px;
+        }
+
+        .country-select {
+            padding: 16px;
+            border: 2px solid #e9edef;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f0f2f5;
+            cursor: pointer;
+            min-width: 100px;
+        }
+
+        .country-select:focus {
+            outline: none;
+            border-color: #00a884;
+            background: white;
+        }
+
+        .add-number-btn {
+            padding: 16px 32px;
+            background: #00a884;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-number-btn:hover {
+            background: #008f6d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 168, 132, 0.3);
+        }
+
+        .add-number-btn:active {
+            transform: translateY(0);
+        }
+
+        .phone-input {
+            flex: 1;
+            padding: 16px;
+            border: 2px solid #e9edef;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f0f2f5;
+        }
+
+        .phone-input:focus {
+            outline: none;
+            border-color: #00a884;
+            background: white;
+        }
+
+        /* Message Section */
+        .message-section {
+            margin-top: 30px;
+        }
+
+        .message-textarea {
+            width: 100%;
+            max-width: 600px;
+            min-height: 120px;
+            padding: 16px;
+            border: 2px solid #e9edef;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #f0f2f5;
+            resize: vertical;
+        }
+
+        .message-textarea:focus {
+            outline: none;
+            border-color: #00a884;
+            background: white;
+        }
+
+        .send-broadcast-btn {
+            margin-top: 20px;
+            padding: 18px 48px;
+            background: #00a884;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .send-broadcast-btn:hover {
+            background: #008f6d;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 168, 132, 0.3);
+        }
+
+        .send-broadcast-btn:active {
+            transform: translateY(0);
+        }
+
+        .send-broadcast-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        /* Phone List Display */
+        .phone-list-display {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f0f2f5;
+            border-radius: 12px;
+            max-width: 600px;
+        }
+
+        .phone-list-title {
+            font-size: 14px;
+            color: #667781;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .phone-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            margin: 4px;
+            font-size: 14px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .phone-chip .remove-btn {
+            cursor: pointer;
+            color: #667781;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+
+        .phone-chip .remove-btn:hover {
+            color: #f44336;
+        }
+
+        /* Info Section */
+        .info-card {
+            padding: 40px;
+            background: linear-gradient(135deg, #00a884 0%, #008f6d 100%);
+            color: white;
+        }
+
+        .info-title {
+            font-size: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .info-description {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            opacity: 0.95;
+        }
+
+        .info-highlight {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 40px;
+        }
+
+        .feature-item {
+            padding: 24px;
+            background: #f0f2f5;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: #e9edef;
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: #00a884;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .feature-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111b21;
+            margin-bottom: 8px;
+        }
+
+        .feature-description {
+            font-size: 14px;
+            color: #667781;
+            line-height: 1.5;
+        }
+
+        .helper-text {
+            font-size: 13px;
+            color: #667781;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .hero-section {
+                padding: 24px;
+            }
+
+            .hero-title {
+                font-size: 24px;
+            }
+
+            .features-grid {
+                padding: 24px;
+            }
+
+            .phone-input-container {
+                flex-direction: column;
+            }
+
+            .country-select {
+                width: 100%;
+            }
         }
     </style>
 </head>
-
 <body>
-    <div>
-        <!-- Header-Section    -->
-        <div class="header">
-            <div class="logo">
-                <img src="images/logo-img.svg" alt="">
-            </div>
-            <div class="ancer">
-                <a href="index.html">PERSONAL</a>
-                <a href="broadcast.html">BROADCAST</a>
-            </div>
-            <h1>Work in progress...</h1>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <svg viewBox="0 0 24 24">
+                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 012.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.15l-.3-.17-3.12.82.83-3.04-.2-.32a8.188 8.188 0 01-1.26-4.38c.01-4.54 3.7-8.24 8.25-8.24M8.53 7.33c-.16 0-.43.06-.66.31-.22.25-.87.86-.87 2.07 0 1.22.89 2.39 1 2.56.14.17 1.76 2.67 4.25 3.73.59.27 1.05.42 1.41.53.59.19 1.13.16 1.56.1.48-.07 1.46-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.07-.1-.23-.16-.48-.27-.25-.14-1.47-.74-1.69-.82-.23-.08-.37-.12-.56.12-.16.25-.64.81-.78.97-.15.17-.29.19-.53.07-.26-.13-1.06-.39-2-1.23-.74-.66-1.23-1.47-1.38-1.72-.12-.24-.01-.39.11-.5.11-.11.27-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.11-.56-1.35-.77-1.84-.2-.48-.4-.42-.56-.43-.14 0-.3-.01-.47-.01z"/>
+            </svg>
+            <span>WhatsApp Sender</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">PERSONAL</a>
+            <a href="broadcast.html" class="active">BROADCAST</a>
         </div>
     </div>
 
-</body>
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Hero Card -->
+        <div class="card">
+            <div class="hero-section">
+                <h1 class="hero-title">Send Broadcast Message</h1>
+                
+                <div class="input-group">
+                    <label class="input-label">Add Phone Numbers</label>
+                    <div class="phone-input-container">
+                        <select class="country-select" id="countryCode">
+                            <option value="93">🇦🇫 +93</option>
+                            <option value="355">🇦🇱 +355</option>
+                            <option value="213">🇩🇿 +213</option>
+                            <option value="1">🇺🇸 +1</option>
+                            <option value="44">🇬🇧 +44</option>
+                            <option value="91">🇮🇳 +91</option>
+                            <option value="92" selected>🇵🇰 +92</option>
+                            <option value="971">🇦🇪 +971</option>
+                            <option value="966">🇸🇦 +966</option>
+                            <option value="86">🇨🇳 +86</option>
+                            <option value="81">🇯🇵 +81</option>
+                            <option value="82">🇰🇷 +82</option>
+                            <option value="49">🇩🇪 +49</option>
+                            <option value="33">🇫🇷 +33</option>
+                            <option value="39">🇮🇹 +39</option>
+                            <option value="34">🇪🇸 +34</option>
+                            <option value="7">🇷🇺 +7</option>
+                            <option value="55">🇧🇷 +55</option>
+                            <option value="61">🇦🇺 +61</option>
+                            <option value="27">🇿🇦 +27</option>
+                        </select>
+                        <input type="tel" class="phone-input" id="phoneNumber" placeholder="3123456789">
+                        <button class="add-number-btn" onclick="addNumber()">Add</button>
+                    </div>
+                    <p class="helper-text">Enter numbers one at a time or paste a list below</p>
+                </div>
 
+                <div class="input-group">
+                    <label class="input-label">Or Paste Multiple Numbers (one per line)</label>
+                    <textarea class="phone-list-area" id="phoneList" placeholder="923123456789
+923987654321
+923111222333"></textarea>
+                </div>
+
+                <div class="phone-list-display" id="phoneListDisplay" style="display: none;">
+                    <div class="phone-list-title">Recipients (<span id="recipientCount">0</span>)</div>
+                    <div id="phoneChips"></div>
+                </div>
+
+                <div class="message-section">
+                    <label class="input-label">Broadcast Message</label>
+                    <textarea class="message-textarea" id="message" placeholder="Type your broadcast message here..."></textarea>
+                </div>
+
+                <button class="send-broadcast-btn" onclick="sendBroadcast()">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
+                    </svg>
+                    Send Broadcast
+                </button>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Multiple Recipients</h3>
+                    <p class="feature-description">Send messages to multiple contacts at once efficiently</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Bulk Import</h3>
+                    <p class="feature-description">Paste multiple numbers at once from your spreadsheet</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Time Saver</h3>
+                    <p class="feature-description">Send the same message to everyone without repetition</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Card -->
+        <div class="card">
+            <div class="info-card">
+                <h2 class="info-title">What is Broadcast Messaging?</h2>
+                <p class="info-description">
+                    Broadcast messaging allows you to send the same WhatsApp message to multiple recipients at once. Perfect for announcements, promotions, updates, or any message you need to share with a group.
+                </p>
+                <div class="info-highlight">
+                    <strong>How it works:</strong> Add phone numbers individually or paste a list, write your message once, and send it to everyone. Each recipient receives the message as an individual chat, maintaining privacy and personal connection.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let phoneNumbers = [];
+
+        function addNumber() {
+            const countryCode = document.getElementById('countryCode').value;
+            const phoneInput = document.getElementById('phoneNumber');
+            const phone = phoneInput.value.trim();
+            
+            if (!phone) {
+                alert('Please enter a phone number');
+                return;
+            }
+            
+            const cleanPhone = phone.replace(/[^\d]/g, '');
+            const fullNumber = countryCode + cleanPhone;
+            
+            if (!phoneNumbers.includes(fullNumber)) {
+                phoneNumbers.push(fullNumber);
+                updatePhoneList();
+                phoneInput.value = '';
+            } else {
+                alert('This number is already added');
+            }
+        }
+
+        function removeNumber(number) {
+            phoneNumbers = phoneNumbers.filter(n => n !== number);
+            updatePhoneList();
+        }
+
+        function updatePhoneList() {
+            const display = document.getElementById('phoneListDisplay');
+            const chipsContainer = document.getElementById('phoneChips');
+            const countSpan = document.getElementById('recipientCount');
+            
+            if (phoneNumbers.length === 0) {
+                display.style.display = 'none';
+                return;
+            }
+            
+            display.style.display = 'block';
+            countSpan.textContent = phoneNumbers.length;
+            
+            chipsContainer.innerHTML = phoneNumbers.map(number => `
+                <div class="phone-chip">
+                    <span>+${number}</span>
+                    <span class="remove-btn" onclick="removeNumber('${number}')">×</span>
+                </div>
+            `).join('');
+        }
+
+        function sendBroadcast() {
+            const message = document.getElementById('message').value;
+            const phoneListText = document.getElementById('phoneList').value.trim();
+            
+            // Process pasted numbers
+            if (phoneListText) {
+                const lines = phoneListText.split('\n');
+                lines.forEach(line => {
+                    const cleanNumber = line.trim().replace(/[^\d]/g, '');
+                    if (cleanNumber && !phoneNumbers.includes(cleanNumber)) {
+                        phoneNumbers.push(cleanNumber);
+                    }
+                });
+                updatePhoneList();
+                document.getElementById('phoneList').value = '';
+            }
+            
+            if (phoneNumbers.length === 0) {
+                alert('Please add at least one phone number');
+                return;
+            }
+            
+            if (!message) {
+                alert('Please enter a message');
+                return;
+            }
+            
+            // Open WhatsApp for each number with a small delay
+            let delay = 0;
+            phoneNumbers.forEach((number, index) => {
+                setTimeout(() => {
+                    const url = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+                    window.open(url, '_blank');
+                }, delay);
+                delay += 2000; // 2 second delay between each message
+            });
+            
+            alert(`Opening WhatsApp for ${phoneNumbers.length} recipient(s). Please send each message manually.`);
+        }
+
+        // Allow Enter key in phone input
+        document.getElementById('phoneNumber').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addNumber();
+            }
+        });
+    </script>
+</body>
 </html>

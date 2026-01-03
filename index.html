@@ -3,70 +3,604 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
     <title>WhatsApp Message Sender</title>
-</head>
-<body class="body">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        <!-- Header-Section    -->
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(to bottom, #00a884 0%, #00a884 30%, #f0f2f5 30%, #f0f2f5 100%);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: transparent;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .logo svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            padding: 10px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 24px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a.active {
+            background: white;
+            color: #00a884;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Card Container */
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 40px;
+        }
+
+        .hero-title {
+            font-size: 32px;
+            color: #111b21;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        /* Input Group */
+        .input-group {
+            margin-bottom: 30px;
+        }
+
+        .input-label {
+            font-size: 14px;
+            color: #667781;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 500;
+        }
+
+        .phone-input-container {
+            display: flex;
+            max-width: 400px;
+            gap: 10px;
+        }
+
+        .country-select {
+            padding: 16px;
+            border: 2px solid #e9edef;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f0f2f5;
+            cursor: pointer;
+            min-width: 100px;
+        }
+
+        .country-select:focus {
+            outline: none;
+            border-color: #00a884;
+            background: white;
+        }
+
+        .phone-input {
+            flex: 1;
+            padding: 16px;
+            border: 2px solid #e9edef;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f0f2f5;
+        }
+
+        .phone-input:focus {
+            outline: none;
+            border-color: #00a884;
+            background: white;
+        }
+
+        /* Message Section */
+        .message-section {
+            margin-top: 30px;
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            align-items: center;
+            background: #f0f2f5;
+            border-radius: 12px;
+            padding: 8px;
+            max-width: 600px;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input-wrapper:focus-within {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 12px 16px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .send-button {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            background: #00a884;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .send-button:hover {
+            background: #008f6d;
+            transform: scale(1.05);
+        }
+
+        .send-button:active {
+            transform: scale(0.95);
+        }
+
+        .send-button svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        /* Info Section */
+        .info-card {
+            padding: 40px;
+            background: linear-gradient(135deg, #00a884 0%, #008f6d 100%);
+            color: white;
+        }
+
+        .info-title {
+            font-size: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .info-description {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            opacity: 0.95;
+        }
+
+        .info-highlight {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 40px;
+        }
+
+        .feature-item {
+            padding: 24px;
+            background: #f0f2f5;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: #e9edef;
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: #00a884;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .feature-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111b21;
+            margin-bottom: 8px;
+        }
+
+        .feature-description {
+            font-size: 14px;
+            color: #667781;
+            line-height: 1.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .hero-section {
+                padding: 24px;
+            }
+
+            .hero-title {
+                font-size: 24px;
+            }
+
+            .features-grid {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
     <div class="header">
         <div class="logo">
-            <img src="images/logo-img.svg">
+            <svg viewBox="0 0 24 24">
+                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 012.41 5.83c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.39-4.19-1.15l-.3-.17-3.12.82.83-3.04-.2-.32a8.188 8.188 0 01-1.26-4.38c.01-4.54 3.7-8.24 8.25-8.24M8.53 7.33c-.16 0-.43.06-.66.31-.22.25-.87.86-.87 2.07 0 1.22.89 2.39 1 2.56.14.17 1.76 2.67 4.25 3.73.59.27 1.05.42 1.41.53.59.19 1.13.16 1.56.1.48-.07 1.46-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.07-.1-.23-.16-.48-.27-.25-.14-1.47-.74-1.69-.82-.23-.08-.37-.12-.56.12-.16.25-.64.81-.78.97-.15.17-.29.19-.53.07-.26-.13-1.06-.39-2-1.23-.74-.66-1.23-1.47-1.38-1.72-.12-.24-.01-.39.11-.5.11-.11.27-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.11-.56-1.35-.77-1.84-.2-.48-.4-.42-.56-.43-.14 0-.3-.01-.47-.01z"/>
+            </svg>
+            <span>WhatsApp Sender</span>
         </div>
-        <div class="ancer">
-            <a href="index.html">PERSONAL</a>
+        <div class="nav-links">
+            <a href="index.html" class="active">PERSONAL</a>
             <a href="broadcast.html">BROADCAST</a>
         </div>
     </div>
-        
-    <!--Hero-Section -->
-    <div class="container">
-        <div class="hero">
-            <div class="heading">
-                 <h1>Send Personal Message</h1>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Hero Card -->
+        <div class="card">
+            <div class="hero-section">
+                <h1 class="hero-title">Send Personal Message</h1>
+                
+                <div class="input-group">
+                    <label class="input-label">Phone Number</label>
+                    <div class="phone-input-container">
+                        <select class="country-select" id="countryCode">
+                            <option value="93">🇦🇫 +93</option>
+                            <option value="355">🇦🇱 +355</option>
+                            <option value="213">🇩🇿 +213</option>
+                            <option value="376">🇦🇩 +376</option>
+                            <option value="244">🇦🇴 +244</option>
+                            <option value="54">🇦🇷 +54</option>
+                            <option value="374">🇦🇲 +374</option>
+                            <option value="61">🇦🇺 +61</option>
+                            <option value="43">🇦🇹 +43</option>
+                            <option value="994">🇦🇿 +994</option>
+                            <option value="973">🇧🇭 +973</option>
+                            <option value="880">🇧🇩 +880</option>
+                            <option value="375">🇧🇾 +375</option>
+                            <option value="32">🇧🇪 +32</option>
+                            <option value="501">🇧🇿 +501</option>
+                            <option value="229">🇧🇯 +229</option>
+                            <option value="975">🇧🇹 +975</option>
+                            <option value="591">🇧🇴 +591</option>
+                            <option value="387">🇧🇦 +387</option>
+                            <option value="267">🇧🇼 +267</option>
+                            <option value="55">🇧🇷 +55</option>
+                            <option value="673">🇧🇳 +673</option>
+                            <option value="359">🇧🇬 +359</option>
+                            <option value="226">🇧🇫 +226</option>
+                            <option value="257">🇧🇮 +257</option>
+                            <option value="855">🇰🇭 +855</option>
+                            <option value="237">🇨🇲 +237</option>
+                            <option value="1">🇨🇦 +1</option>
+                            <option value="238">🇨🇻 +238</option>
+                            <option value="236">🇨🇫 +236</option>
+                            <option value="235">🇹🇩 +235</option>
+                            <option value="56">🇨🇱 +56</option>
+                            <option value="86">🇨🇳 +86</option>
+                            <option value="57">🇨🇴 +57</option>
+                            <option value="269">🇰🇲 +269</option>
+                            <option value="242">🇨🇬 +242</option>
+                            <option value="243">🇨🇩 +243</option>
+                            <option value="506">🇨🇷 +506</option>
+                            <option value="385">🇭🇷 +385</option>
+                            <option value="53">🇨🇺 +53</option>
+                            <option value="357">🇨🇾 +357</option>
+                            <option value="420">🇨🇿 +420</option>
+                            <option value="45">🇩🇰 +45</option>
+                            <option value="253">🇩🇯 +253</option>
+                            <option value="593">🇪🇨 +593</option>
+                            <option value="20">🇪🇬 +20</option>
+                            <option value="503">🇸🇻 +503</option>
+                            <option value="240">🇬🇶 +240</option>
+                            <option value="291">🇪🇷 +291</option>
+                            <option value="372">🇪🇪 +372</option>
+                            <option value="251">🇪🇹 +251</option>
+                            <option value="358">🇫🇮 +358</option>
+                            <option value="33">🇫🇷 +33</option>
+                            <option value="241">🇬🇦 +241</option>
+                            <option value="220">🇬🇲 +220</option>
+                            <option value="995">🇬🇪 +995</option>
+                            <option value="49">🇩🇪 +49</option>
+                            <option value="233">🇬🇭 +233</option>
+                            <option value="30">🇬🇷 +30</option>
+                            <option value="502">🇬🇹 +502</option>
+                            <option value="224">🇬🇳 +224</option>
+                            <option value="245">🇬🇼 +245</option>
+                            <option value="592">🇬🇾 +592</option>
+                            <option value="509">🇭🇹 +509</option>
+                            <option value="504">🇭🇳 +504</option>
+                            <option value="852">🇭🇰 +852</option>
+                            <option value="36">🇭🇺 +36</option>
+                            <option value="354">🇮🇸 +354</option>
+                            <option value="91">🇮🇳 +91</option>
+                            <option value="62">🇮🇩 +62</option>
+                            <option value="98">🇮🇷 +98</option>
+                            <option value="964">🇮🇶 +964</option>
+                            <option value="353">🇮🇪 +353</option>
+                            <option value="972">🇮🇱 +972</option>
+                            <option value="39">🇮🇹 +39</option>
+                            <option value="81">🇯🇵 +81</option>
+                            <option value="962">🇯🇴 +962</option>
+                            <option value="7">🇰🇿 +7</option>
+                            <option value="254">🇰🇪 +254</option>
+                            <option value="965">🇰🇼 +965</option>
+                            <option value="996">🇰🇬 +996</option>
+                            <option value="856">🇱🇦 +856</option>
+                            <option value="371">🇱🇻 +371</option>
+                            <option value="961">🇱🇧 +961</option>
+                            <option value="266">🇱🇸 +266</option>
+                            <option value="231">🇱🇷 +231</option>
+                            <option value="218">🇱🇾 +218</option>
+                            <option value="423">🇱🇮 +423</option>
+                            <option value="370">🇱🇹 +370</option>
+                            <option value="352">🇱🇺 +352</option>
+                            <option value="853">🇲🇴 +853</option>
+                            <option value="389">🇲🇰 +389</option>
+                            <option value="261">🇲🇬 +261</option>
+                            <option value="265">🇲🇼 +265</option>
+                            <option value="60">🇲🇾 +60</option>
+                            <option value="960">🇲🇻 +960</option>
+                            <option value="223">🇲🇱 +223</option>
+                            <option value="356">🇲🇹 +356</option>
+                            <option value="222">🇲🇷 +222</option>
+                            <option value="230">🇲🇺 +230</option>
+                            <option value="52">🇲🇽 +52</option>
+                            <option value="373">🇲🇩 +373</option>
+                            <option value="377">🇲🇨 +377</option>
+                            <option value="976">🇲🇳 +976</option>
+                            <option value="382">🇲🇪 +382</option>
+                            <option value="212">🇲🇦 +212</option>
+                            <option value="258">🇲🇿 +258</option>
+                            <option value="95">🇲🇲 +95</option>
+                            <option value="264">🇳🇦 +264</option>
+                            <option value="977">🇳🇵 +977</option>
+                            <option value="31">🇳🇱 +31</option>
+                            <option value="64">🇳🇿 +64</option>
+                            <option value="505">🇳🇮 +505</option>
+                            <option value="227">🇳🇪 +227</option>
+                            <option value="234">🇳🇬 +234</option>
+                            <option value="850">🇰🇵 +850</option>
+                            <option value="47">🇳🇴 +47</option>
+                            <option value="968">🇴🇲 +968</option>
+                            <option value="92" selected>🇵🇰 +92</option>
+                            <option value="970">🇵🇸 +970</option>
+                            <option value="507">🇵🇦 +507</option>
+                            <option value="675">🇵🇬 +675</option>
+                            <option value="595">🇵🇾 +595</option>
+                            <option value="51">🇵🇪 +51</option>
+                            <option value="63">🇵🇭 +63</option>
+                            <option value="48">🇵🇱 +48</option>
+                            <option value="351">🇵🇹 +351</option>
+                            <option value="974">🇶🇦 +974</option>
+                            <option value="40">🇷🇴 +40</option>
+                            <option value="7">🇷🇺 +7</option>
+                            <option value="250">🇷🇼 +250</option>
+                            <option value="966">🇸🇦 +966</option>
+                            <option value="221">🇸🇳 +221</option>
+                            <option value="381">🇷🇸 +381</option>
+                            <option value="248">🇸🇨 +248</option>
+                            <option value="232">🇸🇱 +232</option>
+                            <option value="65">🇸🇬 +65</option>
+                            <option value="421">🇸🇰 +421</option>
+                            <option value="386">🇸🇮 +386</option>
+                            <option value="677">🇸🇧 +677</option>
+                            <option value="252">🇸🇴 +252</option>
+                            <option value="27">🇿🇦 +27</option>
+                            <option value="82">🇰🇷 +82</option>
+                            <option value="211">🇸🇸 +211</option>
+                            <option value="34">🇪🇸 +34</option>
+                            <option value="94">🇱🇰 +94</option>
+                            <option value="249">🇸🇩 +249</option>
+                            <option value="597">🇸🇷 +597</option>
+                            <option value="268">🇸🇿 +268</option>
+                            <option value="46">🇸🇪 +46</option>
+                            <option value="41">🇨🇭 +41</option>
+                            <option value="963">🇸🇾 +963</option>
+                            <option value="886">🇹🇼 +886</option>
+                            <option value="992">🇹🇯 +992</option>
+                            <option value="255">🇹🇿 +255</option>
+                            <option value="66">🇹🇭 +66</option>
+                            <option value="228">🇹🇬 +228</option>
+                            <option value="216">🇹🇳 +216</option>
+                            <option value="90">🇹🇷 +90</option>
+                            <option value="993">🇹🇲 +993</option>
+                            <option value="256">🇺🇬 +256</option>
+                            <option value="380">🇺🇦 +380</option>
+                            <option value="971">🇦🇪 +971</option>
+                            <option value="44">🇬🇧 +44</option>
+                            <option value="1">🇺🇸 +1</option>
+                            <option value="598">🇺🇾 +598</option>
+                            <option value="998">🇺🇿 +998</option>
+                            <option value="58">🇻🇪 +58</option>
+                            <option value="84">🇻🇳 +84</option>
+                            <option value="967">🇾🇪 +967</option>
+                            <option value="260">🇿🇲 +260</option>
+                            <option value="263">🇿🇼 +263</option>
+                        </select>
+                        <input type="tel" class="phone-input" id="phone" placeholder="3123456789">
+                    </div>
+                </div>
+
+                <div class="message-section">
+                    <label class="input-label">Message</label>
+                    <div class="chat-input-wrapper">
+                        <input type="text" class="message-input" id="message" placeholder="Type a message">
+                        <button class="send-button" onclick="sendMessage()">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
-        <div class="input">
-            <h2>Phone Numbe</h2>
-             <input type="number" id="phone" placeholder="923123456789">
+
+            <!-- Features Grid -->
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Direct Messaging</h3>
+                    <p class="feature-description">Send messages directly to any WhatsApp number without saving contacts</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Quick & Easy</h3>
+                    <p class="feature-description">Simple interface to send messages in seconds</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Secure</h3>
+                    <p class="feature-description">Your data is handled securely and privately</p>
+                </div>
+            </div>
         </div>
 
-        <div class="message-main">
-            <h2>Message</h2>        
-            <div class="chat-bar">
-                <input type="text" id="address" placeholder="Type a message">
-            <button class="send-btn" id="sendBtn" onclick="sendBtn()">
-                <svg viewBox="0 0 24 24">
-                <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/>
-                </svg>
-            </button>
-        </div>
-        </div>     
-    </div>
-    
-
-<!-- introduced -->
-
-      
-        <div class="container2">
-            <h2 class="h22">Introduced Personal Message</h2>
-
-            <p>
-                Whats Personal explains the concept of sending a private message
-                to one person using WhatsApp.
-            </p>
-
-            <div class="chat-box2">
-                This type of messaging is used for direct and personal
-                communication between two people.
+        <!-- Info Card -->
+        <div class="card">
+            <div class="info-card">
+                <h2 class="info-title">What is Personal Messaging?</h2>
+                <p class="info-description">
+                    Personal messaging allows you to send direct WhatsApp messages to individuals without saving their contact information. Perfect for quick communication and one-time messages.
+                </p>
+                <div class="info-highlight">
+                    This type of messaging is ideal for direct and personal communication between two people, whether for business inquiries, customer support, or personal connections.
+                </div>
             </div>
         </div>
     </div>
 
+    <script>
+        function sendMessage() {
+            const countryCode = document.getElementById('countryCode').value;
+            const phone = document.getElementById('phone').value;
+            const message = document.getElementById('message').value;
+            
+            if (!phone) {
+                alert('Please enter a phone number');
+                return;
+            }
+            
+            // Remove any spaces or special characters from phone number
+            const cleanPhone = phone.replace(/[^\d]/g, '');
+            
+            // Combine country code with phone number
+            const fullNumber = countryCode + cleanPhone;
+            
+            // Construct WhatsApp URL
+            let url = `https://wa.me/${fullNumber}`;
+            if (message) {
+                url += `?text=${encodeURIComponent(message)}`;
+            }
+            
+            // Open WhatsApp in new tab
+            window.open(url, '_blank');
+        }
 
-
-  <!-- intl-tel-input JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
-  <script src="script.js"></script>
+        // Allow Enter key to send message
+        document.getElementById('message').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
 </body>
 </html>
